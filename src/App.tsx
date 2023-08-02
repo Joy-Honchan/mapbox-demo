@@ -1,19 +1,10 @@
 import './App.css'
+import { KH_MRT_DATA } from 'data/KH-MART'
 import Mapbox from 'map'
-// import { Source, Layer } from 'react-map-gl'
+import ReactSvgUrl from 'assets/react.svg'
 
 function App() {
-  return (
-    <>
-      <Mapbox
-        initialViewState={{
-          latitude: 23.144864319264016,
-          longitude: 120.2458966147924,
-          zoom: 11
-        }}
-      ></Mapbox>
-    </>
-  )
+  return <Mapbox dataset={KH_MRT_DATA} iconData={{ react: ReactSvgUrl }} />
 }
 
 export default App

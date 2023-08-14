@@ -30,13 +30,12 @@ const CustomMap = ({ children, iconData, ...rest }: CustomMapProps) => {
     },
     [iconData]
   )
-  // const onLoad = useCallback(() => {}, [])
   return (
     <Map
       initialViewState={{
         latitude: 23.144864319264016,
         longitude: 120.2458966147924,
-        zoom: 11
+        zoom: 9
       }}
       ref={mapRefCallback}
       mapStyle={`mapbox://styles/mapbox/streets-v12`}

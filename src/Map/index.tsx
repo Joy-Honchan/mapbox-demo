@@ -11,7 +11,6 @@ function MapBox({
   dataset: CustomGeoJsonType
   iconData: { [iconId: string]: string }
 }) {
-  console.log('dataset', dataset)
   return (
     <>
       <CustomMap iconData={iconData}>
@@ -21,6 +20,12 @@ function MapBox({
             sourceId={`hotel-${districtName}`}
             districtName={districtName}
             districtData={dataset[districtName]}
+            clusterProperties={{
+              isOnePointCluster: [
+                'any',
+                ['==', ['get', 'isOnePointCluster'], true]
+              ]
+            }}
           >
             <Layer
               id={`clusters-${districtName}`}

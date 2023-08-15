@@ -8,43 +8,43 @@ export interface CustomGeoJsonType {
 }
 
 const DISTRICT_MAPPING: { [x: string]: string } = {
-    jiali: "佳里",
-    baihe: "白河",
-    anping: "安平",
-    anding: "安定",
-    annan: "安南",
-    yongkang: "永康",
+    jiali: "佳里區",
+    baihe: "白河區",
+    anping: "安平區",
+    anding: "安定區",
+    annan: "安南區",
+    yongkang: "永康區",
     east: "東區",
     south: "南區",
     north: "北區",
-    xinying: "新營",
-    rende: "仁德",
-    danei: "大內",
-    westCentral: "中西",
-    sinying: "新營",
-    yanshuei: "鹽水",
-    liouying: "柳營",
-    houbi: "後壁",
-    dongshan: "東山",
-    madou: "麻豆",
-    siaying: "下營",
-    lioujia: "六甲",
-    guantian: "官田",
-    syuejia: "學甲",
-    nansi: "楠西",
-    shanhua: "善化",
-    sinhua: "新化",
-    sigang: "西港",
-    guanmiao: "關廟",
-    yujing: "玉井",
-    sinshih: "新市",
-    gueiren: "歸仁",
-    beimen: "北門",
-    nanhua: "南化",
-    cigu: "七股",
-    zuojhen: "左鎮",
-    longci: "龍崎",
-    jiangjyun: "將軍",
+    xinying: "新營區",
+    rende: "仁德區",
+    danei: "大內區",
+    westCentral: "中西區",
+    sinying: "新營區",
+    yanshuei: "鹽水區",
+    liouying: "柳營區",
+    houbi: "後壁區",
+    dongshan: "東山區",
+    madou: "麻豆區",
+    siaying: "下營區",
+    lioujia: "六甲區",
+    guantian: "官田區",
+    syuejia: "學甲區",
+    nansi: "楠西區",
+    shanhua: "善化區",
+    sinhua: "新化區",
+    sigang: "西港區",
+    guanmiao: "關廟區",
+    yujing: "玉井區",
+    sinshih: "新市區",
+    gueiren: "歸仁區",
+    beimen: "北門區",
+    nanhua: "南化區",
+    cigu: "七股區",
+    zuojhen: "左鎮區",
+    longci: "龍崎區",
+    jiangjyun: "將軍區",
     unknown: "未分類"
 }
 
@@ -59,7 +59,7 @@ const generateData: () => CustomGeoJsonType = () => {
                 name,
                 address,
                 category,
-                introduction
+                introduction,
             },
             geometry: {
                 coordinates: [Number(long), Number(lat)],
@@ -88,6 +88,18 @@ const generateData: () => CustomGeoJsonType = () => {
                 }
             }
         }
+    }
+    for (const item of Object.keys(result)) {
+        if (result[item].features.length !== 1) continue;
+        const { type, geometry } = result[item].features[0]
+        const oneClusterPoint = {
+            type,
+            properties: {
+                isOnePointCluster: true
+            },
+            geometry
+        }
+        result[item].features = [...result[item].features, oneClusterPoint]
     }
     return result
 }

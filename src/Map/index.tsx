@@ -7,11 +7,14 @@ import { CustomGeoJsonType } from 'utils/generateData'
 
 function MapBox({
   dataset,
-  iconData
+  iconData,
+  defaultZoom
 }: {
   dataset: CustomGeoJsonType
   iconData: { [iconId: string]: string }
+  defaultZoom?: number
 }) {
+  const DEFAULT_ZOOM_IN = defaultZoom || 9
   const [layerIds, setLayerId] = useState<string[] | undefined>(undefined)
 
   useEffect(() => {
@@ -24,13 +27,18 @@ function MapBox({
 
   return (
     <>
-      <CustomMap iconData={iconData} interactiveLayerIds={layerIds}>
+      <CustomMap
+        iconData={iconData}
+        interactiveLayerIds={layerIds}
+        defaultZoom={DEFAULT_ZOOM_IN}
+      >
         {Object.keys(dataset).map((districtName) => (
           <CustomSource
             key={districtName}
             sourceId={`hotel-${districtName}`}
             districtName={districtName}
             districtData={dataset[districtName]}
+            defaultZoom={DEFAULT_ZOOM_IN + 1}
             clusterProperties={{
               isOnePointCluster: [
                 'any',

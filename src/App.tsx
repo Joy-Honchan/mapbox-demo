@@ -1,3 +1,4 @@
+/// <reference types="vite-plugin-svgr/client" />
 import './App.css'
 // import { KH_MRT_DATA } from 'data/KH-MART'
 import Mapbox from 'map'
@@ -15,7 +16,11 @@ function App() {
         {/* <div className="bg-orange-300 w-64">SideBar</div> */}
         <section className="flex-grow">
           <main className=" h-full">
-            <Mapbox dataset={hotelData} iconData={{ react: ReactSvgUrl }} />
+            <Mapbox
+              dataset={hotelData}
+              iconData={{ react: ReactSvgUrl }}
+              defaultZoom={9}
+            />
           </main>
         </section>
       </section>

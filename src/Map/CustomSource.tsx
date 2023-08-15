@@ -6,6 +6,7 @@ interface CustomSourceType extends Omit<SourceProps, 'type' | 'data' | 'id'> {
   districtData: FeatureCollection
   districtName: string
   clusterProperties?: object
+  defaultZoom: number
 }
 
 export default function CustomSource({
@@ -14,6 +15,7 @@ export default function CustomSource({
   districtName,
   children,
   clusterProperties,
+  defaultZoom,
   ...rest
 }: CustomSourceType) {
   return (
@@ -22,7 +24,7 @@ export default function CustomSource({
       type="geojson"
       data={districtData}
       cluster={true}
-      clusterMaxZoom={11}
+      clusterMaxZoom={defaultZoom + 1}
       clusterRadius={512}
       clusterProperties={clusterProperties}
       {...rest}

@@ -1,11 +1,6 @@
 import { FeatureCollection } from 'geojson'
 import { Source, SourceProps, Layer } from 'react-map-gl'
 
-// interface CustomSourceType extends Omit<SourceProps, 'type' | 'data' | 'id'> {
-//   prefix?: string
-//   districtData: FeatureCollection
-//   districtName: string
-// }
 interface CustomSourceType extends Omit<SourceProps, 'type' | 'data' | 'id'> {
   sourceId: string
   districtData: FeatureCollection
@@ -27,7 +22,7 @@ export default function CustomSource({
       type="geojson"
       data={districtData}
       cluster={true}
-      clusterMaxZoom={15}
+      clusterMaxZoom={11}
       clusterRadius={512}
       clusterProperties={clusterProperties}
       {...rest}

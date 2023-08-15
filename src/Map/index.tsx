@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import { Layer } from 'react-map-gl'
 import CustomMap from './CustomMap'
 // import { DistrictMRTdataType } from 'data/KH-MART'
@@ -11,9 +12,19 @@ function MapBox({
   dataset: CustomGeoJsonType
   iconData: { [iconId: string]: string }
 }) {
+  const [layerIds, setLayerId] = useState<string[] | undefined>(undefined)
+
+  useEffect(() => {
+    const layerNames = Object.keys(dataset).flatMap((keyName) => [
+      `clusters-${keyName}`,
+      `unclusteredPoint-${keyName}`
+    ])
+    setLayerId(layerNames)
+  }, [dataset])
+
   return (
     <>
-      <CustomMap iconData={iconData}>
+      <CustomMap iconData={iconData} interactiveLayerIds={layerIds}>
         {Object.keys(dataset).map((districtName) => (
           <CustomSource
             key={districtName}

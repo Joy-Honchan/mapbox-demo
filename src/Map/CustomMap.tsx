@@ -1,6 +1,7 @@
 import { useRef, useCallback, ComponentProps } from 'react'
-import { Map, MapRef } from 'react-map-gl'
+import Map, { MapRef, MapLayerMouseEvent } from 'react-map-gl'
 import loadImage from 'utils/loadImage'
+import { GeoJSONSource } from 'mapbox-gl'
 
 import 'mapbox-gl/dist/mapbox-gl.css'
 
@@ -30,6 +31,35 @@ const CustomMap = ({ children, iconData, ...rest }: CustomMapProps) => {
     },
     [iconData]
   )
+  const onMapClick = (event: MapLayerMouseEvent) => {
+    const feature = event.features?.[0]
+
+    // 必須點擊在 cluster 或 point 上才有作用
+    if (feature?.geometry?.type === 'Point') {
+      const geoCoordinates = feature.geometry.coordinates
+      const clusterId = feature.properties?.cluster_id
+      const mapboxSource = mapRef.current?.getSource(
+        feature?.source
+      ) as GeoJSONSource
+
+      // 點在 cluster 上
+      if (clusterId) {
+        mapboxSource.getClusterExpansionZoom(clusterId, (err) => {
+          if (err) {
+            return
+          }
+
+          mapRef.current?.easeTo({
+            center: [geoCoordinates[0], geoCoordinates[1]],
+            zoom: 12,
+            duration: 500
+          })
+        })
+      } else {
+        // 點在 point 上
+      }
+    }
+  }
   return (
     <Map
       initialViewState={{
@@ -41,7 +71,7 @@ const CustomMap = ({ children, iconData, ...rest }: CustomMapProps) => {
       mapStyle={`mapbox://styles/mapbox/streets-v12`}
       mapboxAccessToken={import.meta.env.VITE_MAPBOX_ACCESS_TOKEN}
       // interactiveLayerIds={layerIds || []}
-      // onClick={onMapClick}
+      onClick={onMapClick}
       // onZoomEnd={onZoom}
       // onLoad={onLoad}
       minZoom={5}
